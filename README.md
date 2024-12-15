@@ -1,2 +1,2 @@
-# consolePackages
+# console packages
 java edu proj
