@@ -20,8 +20,8 @@ public class TrucksToConsoleWriter {
                 stringBuilder.append("+");
                 System.out.println(stringBuilder);
             }
+            System.out.println("++++++++");
         }
-        System.out.println("++++++++");
     }
 
 }

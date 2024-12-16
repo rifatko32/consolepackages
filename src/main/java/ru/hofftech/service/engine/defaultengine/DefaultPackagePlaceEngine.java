@@ -1,6 +1,7 @@
 package ru.hofftech.service.engine.defaultengine;
 
 import ru.hofftech.service.engine.PackagePlaceEngine;
+import ru.hofftech.service.engine.PackageRecord;
 import ru.hofftech.service.engine.Truck;
 
 import java.util.ArrayList;
@@ -8,7 +9,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class DefaultPackagePlaceEngine implements PackagePlaceEngine {
-    private final int TRUCK_BACK_WEIGHT = 6;
+    private final int TRUCK_BACK_WIDTH = 6;
     private final int TRUCK_BACK_HEIGHT = 6;
 
     @Override
@@ -40,7 +41,7 @@ public class DefaultPackagePlaceEngine implements PackagePlaceEngine {
         var trucks = new ArrayList<Truck>();
 
         do{
-            var truck = new Truck(TRUCK_BACK_WEIGHT,TRUCK_BACK_HEIGHT);
+            var truck = new Truck(TRUCK_BACK_WIDTH,TRUCK_BACK_HEIGHT);
 
             for(PackageRecord record : packages){
                 this.tryPlacePackage(record, truck);
@@ -64,6 +65,7 @@ public class DefaultPackagePlaceEngine implements PackagePlaceEngine {
                 // ячейка занята ИЛИ ширина посылки больше оставшегося свободного места в кузова
                 if (truck.checkIfRangeHasFilledSlots(x - packageRecord.getWidth() + 1, y - packageRecord.getHeight() + 1, x ,y)
                         || !packageRecord.checkIfPackageHasEnoughSpace(x + 1,y + 1)
+                        || !truck.checkIfHasEnoughBase(x - packageRecord.getWidth() + 1, x, y, packageRecord.getMinimalBase())
                 )
                 {
                     continue;

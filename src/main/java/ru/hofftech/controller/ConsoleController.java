@@ -30,7 +30,7 @@ public class ConsoleController {
             if (matcher.matches()) {
                 String filePath = matcher.group(1);
                 log.info("Start of handling file: {}", filePath);
-                packagePlaceService.placePackages(filePath, PackagePlaceEngineType.DEFAULT_PACKAGE_PLACE_ENGINE);
+                packagePlaceService.placePackages(filePath, PackagePlaceEngineType.DEFAULT_PACKAGE_PLACE_ENGINE);// PackagePlaceEngineType.DEFAULT_PACKAGE_PLACE_ENGINE);
                 log.info("End of handling file: {}", filePath);
             }
             else {

@@ -29,7 +29,7 @@ public class Truck {
     public boolean checkIfRangeHasFilledSlots(int startX, int startY, int endX, int endY) {
         var result = false;
 
-        if (startX < 0) {
+        if (startX < 0 || startY < 0) {
             return result;
         }
 
@@ -43,5 +43,20 @@ public class Truck {
         }
 
         return result;
+    }
+
+    public boolean checkIfHasEnoughBase(int startX, int endX, int y, int minimalBase) {
+        if (y == height -1 ){
+            return true;
+        }
+
+        var filledSlotCount = 0;
+        for (var x = startX; x <= endX; x++) {
+            if (this.checkIfCurrentSlotIsFilled(x, y + 1)) {
+                filledSlotCount++;
+            }
+        }
+
+        return filledSlotCount >= minimalBase;
     }
 }
