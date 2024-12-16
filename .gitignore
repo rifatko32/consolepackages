@@ -1,6 +1,8 @@
 # Project exclude paths
 /target/
 /.idea/
+/gradle/
+/build/
 
 # Compiled class file
 *.class
