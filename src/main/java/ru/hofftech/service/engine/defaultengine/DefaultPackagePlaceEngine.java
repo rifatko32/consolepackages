@@ -62,7 +62,6 @@ public class DefaultPackagePlaceEngine implements PackagePlaceEngine {
         // пытаемся разместить посылку с правого нижнего угла кузова
         for (var y = truck.getHeight() - 1; y >= 0; y--) {
             for (var x = truck.getWidth() - 1; x >= 0; x--) {
-                // ячейка занята ИЛИ ширина посылки больше оставшегося свободного места в кузова
                 if (truck.checkIfRangeHasFilledSlots(x - packageRecord.getWidth() + 1, y - packageRecord.getHeight() + 1, x ,y)
                         || !packageRecord.checkIfPackageHasEnoughSpace(x + 1,y + 1)
                         || !truck.checkIfHasEnoughBase(x - packageRecord.getWidth() + 1, x, y, packageRecord.getMinimalBase())
