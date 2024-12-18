@@ -1,4 +1,4 @@
-package ru.hofftech.service.engine;
+package ru.hofftech.consolepackages.service.engine;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-public class PackageRecord {
+public class Package {
     private final int descriptionNumber;
     private int width;
     private int height;
@@ -16,62 +16,62 @@ public class PackageRecord {
     @Getter
     private boolean isPlaced;
 
-    public PackageRecord(String description) {
+    public Package(String description) {
         descriptionNumber = Character.getNumericValue(description.charAt(0));
 
-        switch(descriptionNumber) {
+        switch (descriptionNumber) {
             case 1:
-                width = 1;
-                height = 1;
+                this.width = 1;
+                this.height = 1;
                 break;
             case 2:
-                width = 2;
-                height = 1;
+                this.width = 2;
+                this.height = 1;
                 break;
             case 3:
-                width = 3;
-                height = 1;
+                this.width = 3;
+                this.height = 1;
                 break;
             case 4:
-                width = 4;
-                height = 1;
+                this.width = 4;
+                this.height = 1;
                 break;
             case 5:
-                width = 5;
-                height = 1;
+                this.width = 5;
+                this.height = 1;
                 break;
             case 6:
-                width = 3;
-                height = 2;
+                this.width = 3;
+                this.height = 2;
                 break;
             case 7, 8:
-                width = 4;
-                height = 2;
+                this.width = 4;
+                this.height = 2;
                 break;
             case 9:
-                width = 3;
-                height = 3;
+                this.width = 3;
+                this.height = 3;
                 break;
         }
     }
 
-    public boolean checkIfPackageHasEnoughSpace(int enoughWidth, int enoughHeight) {
+    public boolean checkIsPackageHasEnoughSpace(int enoughWidth, int enoughHeight) {
         return enoughWidth >= this.width && enoughHeight >= this.height;
     }
 
-    public int getMinimalBase(){
+    public int calcMinimalBase() {
         return (int) Math.ceil((double) this.width / 2);
     }
 
-    public List<BackTruckSlot> getListOfFillingSlots(int endX, int endY){
+    public List<BackTruckSlot> mapToListOfFillingSlots(int endX, int endY) {
         var result = new ArrayList<BackTruckSlot>();
 
-        var startX = endX - width + 1;
-        var startY = endY - height + 1;
+        var startX = endX - this.width + 1;
+        var startY = endY - this.height + 1;
 
         for (int x = startX; x <= endX; x++) {
             for (int y = startY; y <= endY; y++) {
-                if (isSeventhPackageEmptySlot(endX, x, y, startY)) {
+                if (checkIsSeventhPackageEmptySlot(endX, x, y, startY)) {
                     continue;
                 }
                 result.add(new BackTruckSlot(x, y));
@@ -85,7 +85,7 @@ public class PackageRecord {
     // 777
     // 7777
     // у ней д.б. пустой слот
-    private boolean isSeventhPackageEmptySlot(int endX, int x, int y, int startY) {
-        return x == endX && y == startY && descriptionNumber == 7;
+    private boolean checkIsSeventhPackageEmptySlot(int endX, int x, int y, int startY) {
+        return x == endX && y == startY && this.descriptionNumber == 7;
     }
 }

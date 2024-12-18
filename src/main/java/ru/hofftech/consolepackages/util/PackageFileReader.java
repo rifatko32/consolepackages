@@ -1,4 +1,4 @@
-package ru.hofftech.util;
+package ru.hofftech.consolepackages.util;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -10,7 +10,7 @@ import java.util.List;
 
 @Slf4j
 public class PackageFileReader {
-    public List<String> readAllLines(String filePath) {
+    public List<String> readPackages(String filePath) {
         var result = new ArrayList<String>();
         try {
             BufferedReader reader = new BufferedReader(new FileReader(getClass().getClassLoader().getResource(filePath).toURI().getPath()));
@@ -21,8 +21,7 @@ public class PackageFileReader {
                 if (line.isEmpty()) {
                     result.add(currentLine.toString().trim());
                     currentLine.setLength(0);
-                }
-                else {
+                } else {
                     currentLine.append(line);
                     currentLine.append("\n");
                 }
@@ -36,7 +35,7 @@ public class PackageFileReader {
 
             reader.close();
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("Error while reading file", e);
             return Collections.emptyList();
         }
         return result;
