@@ -3,7 +3,7 @@ package ru.hofftech.consolepackages;
 import lombok.extern.slf4j.Slf4j;
 import ru.hofftech.consolepackages.controller.ConsoleController;
 import ru.hofftech.consolepackages.service.PackageFromFilePlaceService;
-import ru.hofftech.consolepackages.service.engine.PackagePlaceEngineFactory;
+import ru.hofftech.consolepackages.service.packageitem.engine.PackagePlaceAlgorithmFactory;
 import ru.hofftech.consolepackages.service.report.PackagePlaceStringReportEngine;
 import ru.hofftech.consolepackages.util.PackageFileReader;
 import ru.hofftech.consolepackages.util.ReportToConsoleWriter;
@@ -19,9 +19,9 @@ public class Main {
         ConsoleController consoleController = new ConsoleController(
                 new PackageFromFilePlaceService(
                         new PackageFileReader(),
-                        new PackagePlaceEngineFactory(),
-                        new ReportToConsoleWriter(),
-                        new PackagePlaceStringReportEngine()));
+                        new PackagePlaceAlgorithmFactory(),
+                        new PackagePlaceStringReportEngine()),
+                new ReportToConsoleWriter());
         consoleController.listen();
     }
 }

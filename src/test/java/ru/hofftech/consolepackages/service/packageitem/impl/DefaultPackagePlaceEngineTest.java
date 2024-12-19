@@ -1,7 +1,8 @@
-package ru.hofftech.consolepackages.service.engine.defaultengine;
+package ru.hofftech.consolepackages.service.packageitem.impl;
 
 import org.junit.jupiter.api.Test;
-import ru.hofftech.consolepackages.service.engine.Package;
+import ru.hofftech.consolepackages.service.packageitem.Package;
+import ru.hofftech.consolepackages.service.packageitem.engine.impl.PackagePlaceByWidthAlgorithm;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +14,7 @@ public class DefaultPackagePlaceEngineTest {
     public void when_has_packages_should_return_filled_truck() {
         // Arrange
         var packageStrings = List.of("1", "22");
-        var engine = new DefaultPackagePlaceEngine();
+        var engine = new PackagePlaceByWidthAlgorithm();
         int[] [] expectedBackTruck = {
                 {0, 0, 0, 0, 0, 0},
                 {0, 0, 0, 0, 0, 0},
@@ -41,7 +42,7 @@ public class DefaultPackagePlaceEngineTest {
     public void when_does_not_have_packages_should_return_empty_truck_list() {
         // Arrange
         var packages = new ArrayList<Package>();
-        var engine = new DefaultPackagePlaceEngine();
+        var engine = new PackagePlaceByWidthAlgorithm();
 
         // Act
         var result = engine.placePackages(packages);

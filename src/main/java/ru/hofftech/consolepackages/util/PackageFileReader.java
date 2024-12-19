@@ -12,8 +12,7 @@ import java.util.List;
 public class PackageFileReader {
     public List<String> readPackages(String filePath) {
         var result = new ArrayList<String>();
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(getClass().getClassLoader().getResource(filePath).toURI().getPath()));
+        try (BufferedReader reader = new BufferedReader(new FileReader(getClass().getClassLoader().getResource(filePath).toURI().getPath()))) {
             String line = reader.readLine();
             var currentLine = new StringBuilder();
 
@@ -32,8 +31,6 @@ public class PackageFileReader {
             if (!currentLine.isEmpty()) {
                 result.add(currentLine.toString().trim());
             }
-
-            reader.close();
         } catch (Exception e) {
             log.error("Error while reading file", e);
             return Collections.emptyList();

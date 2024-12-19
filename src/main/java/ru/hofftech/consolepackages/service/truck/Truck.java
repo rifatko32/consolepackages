@@ -1,27 +1,37 @@
-package ru.hofftech.consolepackages.service.engine;
+package ru.hofftech.consolepackages.service.truck;
 
 import lombok.Getter;
+import ru.hofftech.consolepackages.service.packageitem.BackTruckSlot;
+import ru.hofftech.consolepackages.service.packageitem.Package;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
+
 public class Truck {
+    @Getter
     private final int[][] backTruckSlots; // координаты ячеек в кузове
+    @Getter
     private final int width; //кол-во столбцов координата x
+    @Getter
     private final int height; //кол-во строк координата y
+
     private final List<Package> packages;
 
     public Truck(int width, int height) {
         this.width = width;
         this.height = height;
         backTruckSlots = new int[height][width];
-        this.packages = new ArrayList<>();
+        packages = new ArrayList<>();
+    }
+
+    public void loadPackage(Package packageItem) {
+        packages.add(packageItem);
     }
 
     public void fillBackTruckSlots(List<BackTruckSlot> fillingSlots, int fillValue) {
         for (var slot : fillingSlots) {
-            this.backTruckSlots[slot.getCoordinateY()][slot.getCoordinateX()] = fillValue;
+            backTruckSlots[slot.coordinateY()][slot.coordinateX()] = fillValue;
         }
     }
 
@@ -38,7 +48,7 @@ public class Truck {
 
         for (var x = startX; x <= endX; x++) {
             for (var y = startY; y <= endY; y++) {
-                result = this.checkIsCurrentSlotIsFilled(x, y);
+                result = checkIsCurrentSlotIsFilled(x, y);
                 if (result) {
                     return result;
                 }
@@ -55,7 +65,7 @@ public class Truck {
 
         var filledSlotCount = 0;
         for (var x = startX; x <= endX; x++) {
-            if (this.checkIsCurrentSlotIsFilled(x, y + 1)) {
+            if (checkIsCurrentSlotIsFilled(x, y + 1)) {
                 filledSlotCount++;
             }
         }

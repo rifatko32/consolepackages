@@ -2,9 +2,10 @@ package ru.hofftech.consolepackages.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import ru.hofftech.consolepackages.service.engine.Package;
-import ru.hofftech.consolepackages.service.engine.PackagePlaceEngineFactory;
-import ru.hofftech.consolepackages.service.engine.PackagePlaceEngineType;
+import ru.hofftech.consolepackages.service.packageitem.Package;
+import ru.hofftech.consolepackages.service.packageitem.engine.PackagePlaceAlgorithmFactory;
+import ru.hofftech.consolepackages.service.packageitem.engine.PackagePlaceAlgorithmType;
+import ru.hofftech.consolepackages.service.report.PackagePlaceStringReport;
 import ru.hofftech.consolepackages.service.report.PackagePlaceStringReportEngine;
 import ru.hofftech.consolepackages.util.PackageFileReader;
 import ru.hofftech.consolepackages.util.ReportToConsoleWriter;
@@ -16,33 +17,32 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PackageFromFilePlaceService {
     private final PackageFileReader fileReader;
-    private final PackagePlaceEngineFactory placeEngineFactory;
-    private final ReportToConsoleWriter reportToConsoleWriter;
+    private final PackagePlaceAlgorithmFactory placeEngineFactory;
     private final PackagePlaceStringReportEngine reportEngine;
 
-    public void placePackages(String filePath, PackagePlaceEngineType engineType) {
+    public PackagePlaceStringReport placePackages(String filePath, PackagePlaceAlgorithmType engineType) {
         try {
             List<String> packages = fileReader.readPackages(filePath);
             if (packages.isEmpty()) {
                 log.info("No packages found");
-                return;
+                return null;
             }
 
             log.info("Found {} packages, start of placing...", packages.size());
 
             var packagePlaceEngine = placeEngineFactory.createPackagePlaceEngine(engineType);
-            var packageRecords = this.initPackages(packages);
+            var packageRecords = mapToPackages(packages);
             var trucks = packagePlaceEngine.placePackages(packageRecords);
 
-            var packagePlaceReport = this.reportEngine.generateReport(trucks);
-
-            reportToConsoleWriter.writeReportToConsole(packagePlaceReport);
+            return reportEngine.generateReport(trucks);
         } catch (Exception e) {
             log.error("Error while try to place packages", e);
         }
+
+        return null;
     }
 
-    private List<Package> initPackages(List<String> packages) {
+    private List<Package> mapToPackages(List<String> packages) {
         var result = new ArrayList<Package>();
 
         for (String curPackage : packages) {

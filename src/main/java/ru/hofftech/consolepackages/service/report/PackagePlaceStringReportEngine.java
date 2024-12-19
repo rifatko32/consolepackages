@@ -1,7 +1,8 @@
 package ru.hofftech.consolepackages.service.report;
 
-import ru.hofftech.consolepackages.service.engine.Truck;
+import ru.hofftech.consolepackages.service.truck.Truck;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PackagePlaceStringReportEngine {
@@ -18,15 +19,17 @@ public class PackagePlaceStringReportEngine {
 
         for (Truck truck : trucks) {
             report.getReportStrings().add(TRUCK_DELIMiTER);
-            addTruckToReport(truck, report);
+            var truckStrings = createTruckReportStrings(truck);
+            report.getReportStrings().addAll(truckStrings);
         }
 
         return report;
     }
 
-    private void addTruckToReport(Truck truck, PackagePlaceStringReport report) {
+    private List<String> createTruckReportStrings(Truck truck) {
         var backTruckSlots = truck.getBackTruckSlots();
         var stringBuilder = new StringBuilder();
+        var trackStrings = new ArrayList<String>();
 
         for (var x = 0; x <= truck.getWidth() - 1; x++) {
             stringBuilder.setLength(0);
@@ -35,9 +38,11 @@ public class PackagePlaceStringReportEngine {
                 stringBuilder.append(backTruckSlots[x][y] == 0 ? " " : backTruckSlots[x][y]);
             }
             stringBuilder.append(TRUCK_SIDE);
-            report.getReportStrings().add(stringBuilder.toString());
+            trackStrings.add(stringBuilder.toString());
         }
 
-        report.getReportStrings().add(TRUCK_BACK_SIDE);
+        trackStrings.add(TRUCK_BACK_SIDE);
+
+        return trackStrings;
     }
 }
